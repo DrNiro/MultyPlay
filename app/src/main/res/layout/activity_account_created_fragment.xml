@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AccountCreatedFragment"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/accOkFrag_LBL_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Account Created Succesfully!"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:layout_centerInParent="true"/>
+
+    <Button
+        android:id="@+id/accOkFrag_BTN_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:layout_below="@+id/accOkFrag_LBL_title"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        />
+
+
+</RelativeLayout>

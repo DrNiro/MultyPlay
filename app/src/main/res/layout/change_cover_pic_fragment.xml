@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ChangeCoverPicFragment"
+    >
+
+    <Button
+        android:id="@+id/changeCover_BTN_choose_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="choose file" />
+
+    <RelativeLayout
+        android:id="@+id/changeCover_LAY_picsArea"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/changeCover_progress_bar"
+        android:layout_below="@+id/changeCover_BTN_choose_file"
+        android:layout_marginTop="16dp">
+
+        <ImageView
+            android:id="@+id/changeCover_IMG_coverPicture"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/light_gray"/>
+
+        <RelativeLayout
+            android:id="@+id/changeCover_LAY_pPic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="75dp">
+
+            <com.example.multyplay.RoundedImageView
+                android:id="@+id/changeCover_RDV_picWhiteBG"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_centerInParent="true"
+                app:srcCompat="@drawable/white_background" />
+
+            <com.example.multyplay.RoundedImageView
+                android:id="@+id/changeCover_RDV_profilePic"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerInParent="true" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <ProgressBar
+        android:id="@+id/changeCover_progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/changeCover_BTN_upload"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/changeCover_BTN_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Upload" />
+
+    <Button
+        android:id="@+id/changeCover_BTN_apply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/changeCover_BTN_upload"
+        android:layout_alignBottom="@+id/changeCover_BTN_upload"
+        android:layout_marginEnd="25dp"
+        android:layout_toLeftOf="@+id/changeCover_BTN_upload"
+        android:gravity="center"
+        android:text="Apply"
+        android:textSize="16sp"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/changeCover_TXT_uploadNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/changeCover_BTN_upload"
+        android:layout_alignBottom="@+id/changeCover_BTN_upload"
+        android:layout_marginStart="25dp"
+        android:layout_toRightOf="@+id/changeCover_BTN_upload"
+        android:gravity="center"
+        android:text="Press upload"
+        android:textSize="16sp" />
+
+</RelativeLayout>

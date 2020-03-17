@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1089307977683",
+    "firebase_url": "https://multyplay-78186.firebaseio.com",
+    "project_id": "multyplay-78186",
+    "storage_bucket": "multyplay-78186.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1089307977683:android:1acc5b88479a604473b126",
+        "android_client_info": {
+          "package_name": "com.example.multyplay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1089307977683-nn9qlf6pe861vfa8v4b6d56brqtm60un.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.multyplay",
+            "certificate_hash": "4f5bf12502c7964db9f7b93354d262885737c9b3"
+          }
+        },
+        {
+          "client_id": "1089307977683-59r80ft9a0226rjmvnidj5b87pqhgn91.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLVkjnLZbyaLPwhVzEHhvB92HC1QoFJb4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1089307977683-59r80ft9a0226rjmvnidj5b87pqhgn91.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

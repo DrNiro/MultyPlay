@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="9dp"
+    app:cardElevation="2dp"
+    app:contentPadding="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--<ImageView-->
+        <!--android:id="@+id/searchRes_IMG_userPic"-->
+        <!--android:layout_width="90dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:background="#2d2d2d"-->
+        <!--/>-->
+
+        <RelativeLayout
+            android:id="@+id/searchRes_IMG_userPic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true">
+
+            <com.example.multyplay.RoundedImageView
+                android:id="@+id/searchRes_RDV_picWhiteBG"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                app:srcCompat="@drawable/white_background" />
+
+            <com.example.multyplay.RoundedImageView
+                android:id="@+id/searchRes_RDV_pic"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/searchRes_IMG_onlineState"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/searchRes_IMG_userPic"
+            android:src="@drawable/ic_green_dot" />
+
+        <TextView
+            android:id="@+id/searchRes_TXT_userNickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/searchRes_IMG_onlineState"
+            android:gravity="center"
+            android:text="User Name"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/searchRes_TXT_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@drawable/ic_loc_pin"
+            android:text=" X km away."
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/searchRes_TXT_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchRes_TXT_userNickName"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:layout_toRightOf="@+id/searchRes_IMG_userPic"
+            android:text="description"
+            android:textSize="11sp"
+            android:layout_marginTop="3dp"/>
+
+        <TextView
+            android:id="@+id/searchRes_TXT_userFavGames"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/searchRes_TXT_description"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/searchRes_IMG_userPic"
+            android:gravity="center"
+            android:text="Playing"
+            android:textSize="13sp" />
+
+        <!--<ImageView-->
+        <!--android:id="@+id/searchRes_BTN_addFriend"-->
+        <!--android:layout_width="40dp"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:src="@drawable/ic_add_friend"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--/>-->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchRes_TXT_userFavGames"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/searchRes_IMG_userPic"
+            android:orientation="horizontal">
+
+            <com.example.multyplay.RoundedImageView
+                android:id="@+id/searchRes_IMG_game1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/img_witcher_iii" />
+
+            <com.example.multyplay.RoundedImageView
+                android:id="@+id/searchRes_IMG_game2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="3dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/img_diablo_iii" />
+
+            <com.example.multyplay.RoundedImageView
+                android:id="@+id/searchRes_IMG_game3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="3dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/img_fifa_20" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

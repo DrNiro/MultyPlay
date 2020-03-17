@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PickProfilePicsFragment"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:id="@+id/pickPics_LAY_profilePic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/pickPics_TXT_chooseProfilePic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile picture"
+            android:textSize="30sp"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="@font/raleway_bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="35dp"/>
+        
+        <TextView
+            android:id="@+id/pickPics_TXT_subTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Choose your profile picture"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/pickPics_TXT_chooseProfilePic" />
+
+        <RelativeLayout
+            android:id="@+id/profile_LAY_pic"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/pickPics_TXT_subTitle"
+            android:layout_marginTop="35dp">
+
+            <com.example.multyplay.RoundedImageView
+                android:id="@+id/pickPics_RDV_picWhiteBG"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_centerInParent="true"
+                app:srcCompat="@drawable/white_background" />
+
+            <com.example.multyplay.RoundedImageView
+                android:id="@+id/pickPics_RDV_profilePic"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerInParent="true" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true" >
+
+                <com.example.multyplay.RoundedImageView
+                    android:id="@+id/pickPics_RDV_changePic_whiteBG"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerInParent="true"
+                    app:srcCompat="@drawable/white_background" />
+
+                <com.example.multyplay.RoundedImageView
+                    android:id="@+id/pickPics_RDV_changeprofilePic"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/ic_plus_upload"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/pickPics_LAY_coverPic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pickPics_LAY_profilePic"
+        android:layout_marginTop="70dp">
+
+        <!--<FrameLayout-->
+            <!--android:id="@+id/pickPics_SEP_cover"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/light_gray"-->
+            <!--android:layout_marginTop="10dp"/>-->
+
+        <TextView
+            android:id="@+id/pickPics_TXT_chooseCoverPic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose cover picture"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_marginTop="10dp"/>
+
+        <RelativeLayout
+            android:id="@+id/pickPics_LAY_actualCoverPic"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@+id/pickPics_TXT_chooseCoverPic"
+            android:layout_marginTop="7dp"
+            >
+
+            <ImageView
+                android:id="@+id/pickPics_IMG_actualCoverPic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/light_gray"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="10dp">
+
+                <com.example.multyplay.RoundedImageView
+                    android:id="@+id/pickPics_RDV_changeCoverPic_whiteBG"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerInParent="true"
+                    app:srcCompat="@drawable/white_background" />
+
+                <com.example.multyplay.RoundedImageView
+                    android:id="@+id/pickPics_RDV_changeCoverPic"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/ic_camera"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload"
+                    android:textSize="14sp"
+                    android:layout_below="@+id/pickPics_RDV_changeCoverPic_whiteBG"
+                    android:layout_marginTop="15dp"
+                    android:scrollbarSize="16sp"
+                    android:textColor="@color/black"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/pickPics_BTN_finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:textSize="25sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/theme_oragne"
+        android:fontFamily="@font/raleway_bold" />
+
+</RelativeLayout>

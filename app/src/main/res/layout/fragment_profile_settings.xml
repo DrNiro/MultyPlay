@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileSettingsFragment"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/settings_TXT_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:textSize="35sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" />
+
+    <RelativeLayout
+        android:id="@+id/settings_LAY_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/settings_TXT_title"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+
+        <ImageView
+            android:id="@+id/settings_IMG_logout"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/settings_TXT_logout"
+            android:layout_alignBottom="@+id/settings_TXT_logout"
+            android:src="@drawable/ic_logout"
+            />
+
+        <TextView
+            android:id="@+id/settings_TXT_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log Out"
+            android:textSize="20sp"
+            android:layout_toRightOf="@+id/settings_IMG_logout"
+            android:layout_marginLeft="15dp" />
+
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

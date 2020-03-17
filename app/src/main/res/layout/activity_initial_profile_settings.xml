@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InitialProfileSettings">
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/profileSetup_LAY_topPanel"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp">-->
+
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="Set your profile"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_centerInParent="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textSize="16sp"&ndash;&gt;-->
+            <!--&lt;!&ndash;/>&ndash;&gt;-->
+
+
+
+    <!--</RelativeLayout>-->
+
+    <ImageView
+        android:id="@+id/profileSetup_IMG_back"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/ic_back_arrow"/>
+
+    <FrameLayout
+        android:id="@+id/profileSetup_LAY_mainWindow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/profileSetup_LAY_topPanel">
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/profileSetup_LAY_pagesDots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:padding="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp">
+
+        <ImageView
+            android:id="@+id/profileSetup_IMG_dotPage1"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:src="@drawable/ic_dot_blue"
+            android:layout_marginRight="15dp"/>
+
+        <ImageView
+            android:id="@+id/profileSetup_IMG_dotPage2"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:src="@drawable/ic_dot_gray"/>
+
+        <ImageView
+            android:id="@+id/profileSetup_IMG_dotPage3"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:src="@drawable/ic_dot_gray"
+            android:layout_marginLeft="15dp"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/doneDialog_IMG_doneImg"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/decor_done_profile_img"/>
+
+    <TextView
+        android:id="@+id/doneDialog_TXT_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="We're Done!"
+        android:fontFamily="@font/raleway_bold"
+        android:textSize="20sp"
+        android:layout_below="@+id/doneDialog_IMG_doneImg"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:id="@+id/doneDialog_TXT_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/doneDialog_TXT_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="You have created your profile"
+        android:fontFamily="@font/raleway_medium"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:paddingBottom="25dp"/>
+
+</RelativeLayout>

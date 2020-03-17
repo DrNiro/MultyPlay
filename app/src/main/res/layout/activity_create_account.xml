@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateAccount"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/create_LBL_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:textColor="@color/black"
+        android:fontFamily="@font/raleway_bold"
+        android:layout_marginLeft="5dp"
+        android:textSize="30sp"
+        android:layout_marginTop="40dp"
+        />
+
+    <TextView
+        android:id="@+id/create_LBL_free"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create a new account"
+        android:layout_marginLeft="5dp"
+        android:textSize="16sp"
+        android:textColor="@color/medium_gray"
+        android:fontFamily="@font/roboto_regular"
+        android:layout_below="@id/create_LBL_title"
+        android:layout_marginTop="10dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/create_LBL_title"
+        android:layout_marginTop="40dp">
+
+        <LinearLayout
+            android:id="@+id/create_LAY_fullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="13dp"
+            android:layout_marginLeft="13dp"
+            android:weightSum="2">
+
+            <EditText
+                android:id="@+id/create_EDT_firstName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:textSize="17sp"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="* First name"/>
+
+            <EditText
+                android:id="@+id/create_EDT_lastName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:layout_weight="1"
+                android:textSize="17sp"
+                android:fontFamily="@font/roboto_regular"
+                android:layout_marginLeft="10dp"
+                android:hint="* Last name"/>
+
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/create_EDT_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="13dp"
+            android:layout_marginLeft="13dp"
+            android:textSize="17sp"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_below="@+id/create_LAY_fullName"
+            android:hint="* Email"
+            android:layout_marginTop="10dp"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/create_EDT_confirm_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="13dp"
+            android:layout_marginLeft="13dp"
+            android:textSize="17sp"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="* Confirm Email"
+            android:layout_below="@+id/create_EDT_email"
+            android:layout_marginTop="10dp"
+            android:inputType="textEmailAddress" />
+
+
+        <EditText
+            android:id="@+id/create_EDT_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="13dp"
+            android:layout_marginLeft="13dp"
+            android:textSize="17sp"
+            android:fontFamily="@font/roboto_regular"
+            android:inputType="textPassword"
+            android:hint="* Password - at lease 6 characters"
+            android:layout_below="@+id/create_EDT_confirm_email"
+            android:layout_marginTop="10dp"
+            />
+
+        <!--<TextView-->
+            <!--android:id="@+id/create_LBL_birthday"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Birthday"-->
+            <!--android:textSize="24sp"-->
+            <!--android:layout_below="@+id/create_EDT_password"-->
+            <!--android:layout_marginLeft="30dp"-->
+            <!--android:layout_marginTop="20dp"/>-->
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/create_LAY_bday"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:weightSum="3"-->
+            <!--android:layout_below="@id/create_LBL_birthday"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_marginLeft="30dp"-->
+            <!--android:layout_marginRight="30dp">-->
+
+            <!--<Spinner-->
+                <!--android:id="@+id/create_SPNR_day"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:spinnerMode="dropdown"-->
+                <!--android:dropDownSelector="@color/colorAccent"-->
+                <!--android:entries="@array/daySpinner">-->
+            <!--</Spinner>-->
+
+            <!--<Spinner-->
+                <!--android:id="@+id/create_SPNR_month"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:spinnerMode="dropdown"-->
+                <!--android:entries="@array/monthSpinner">-->
+            <!--</Spinner>-->
+
+            <!--<Spinner-->
+                <!--android:id="@+id/create_SPNR_year"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:spinnerMode="dropdown"-->
+                <!--android:entries="@array/yearSpinner">-->
+            <!--</Spinner>-->
+
+        <!--</LinearLayout>-->
+
+        <RadioGroup
+            android:id="@+id/create_RAD_GRP_gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_below="@+id/create_EDT_password"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/create_RAD_BTN_female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female"
+                android:layout_marginLeft="10dp"/>
+
+            <RadioButton
+                android:id="@+id/create_RAD_BTN_male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male"
+                android:layout_marginLeft="30dp"/>
+
+            <RadioButton
+                android:id="@+id/create_RAD_BTN_other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Other"
+                android:layout_marginLeft="30dp"
+                android:checked="true" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/create_BTN_signup"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:layout_below="@+id/create_RAD_GRP_gender"
+            android:layout_marginTop="70dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/decor_button"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:fontFamily="@font/raleway_medium"/>
+
+        <TextView
+            android:id="@+id/create_LBL_disclaimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="By Signing Up, you agree to our Terms and Conditions."
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:textColor="@color/darker_gray"
+            android:fontFamily="@font/roboto_regular"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

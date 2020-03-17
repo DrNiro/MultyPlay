@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="daySpinner">
+        <item>Day</item>
+    </string-array>
+
+    <string-array name="monthSpinner">
+        <item>Month</item>
+    </string-array>
+
+    <string-array name="yearSpinner">
+        <item>Year</item>
+    </string-array>
+</resources>

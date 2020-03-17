@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SearchFriendsFragment"
+    android:padding="10dp">
+
+
+
+    <TextView
+        android:id="@+id/search_TXT_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        />
+
+
+    <RelativeLayout
+        android:id="@+id/search_LAY_criteria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_TXT_title">
+
+        <ImageView
+            android:id="@+id/search_BTN_GPS"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/img_logo"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/search_TXT_tapToSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tap to find partners"
+            android:fontFamily="@font/raleway_medium"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/search_BTN_GPS"
+            android:textColor="@color/theme_oragne"/>
+
+    </RelativeLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_RCL_searchResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_LAY_criteria"
+        android:layout_marginTop="15dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+</RelativeLayout>

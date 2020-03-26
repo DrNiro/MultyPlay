@@ -2,15 +2,15 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="120dp"
-    android:layout_height="205dp"
+    android:layout_width="100dp"
+    android:layout_height="170dp"
     android:id="@+id/gameCard_CARD_gameCardView"
     app:cardCornerRadius="9dp"
     app:contentPadding="8dp"
     app:cardElevation="2dp"
-    android:layout_marginBottom="10dp"
-    android:layout_marginRight="5dp"
-    android:layout_marginLeft="5dp"
+    android:layout_marginBottom="15dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
     >
 
     <RelativeLayout
@@ -21,7 +21,7 @@
         <ImageView
             android:id="@+id/gameCard_IMG_gamePic"
             android:layout_width="match_parent"
-            android:layout_height="155dp"
+            android:layout_height="115dp"
             android:scaleType="centerCrop"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"

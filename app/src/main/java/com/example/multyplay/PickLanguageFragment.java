@@ -8,8 +8,10 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +49,7 @@ public class PickLanguageFragment extends Fragment {
     private View view = null;
     private CallBackProceed callBackProceed;
 
-    private EditText initProfile_EDT_nickname;
+    private CutCopyPasteEditText initProfile_EDT_nickname;
     private EditText initProfile_EDT_age;
     private EditText initProfile_EDT_description;
     private Switch initProfile_SWC_showLocation;
@@ -128,7 +130,16 @@ public class PickLanguageFragment extends Fragment {
 
         initProfile_EDT_nickname.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+                int wordsLength = countWords(charSequence.toString());// words.length;
+                // count == 0 means a new word is going to start
+                if (count == 0 && wordsLength >= Constants.MAX_WORDS_FOR_NICKNAME) {
+                    setCharLimit(initProfile_EDT_nickname, initProfile_EDT_nickname.getText().length());
+                    initProfile_EDT_nickname.setText(initProfile_EDT_nickname.getText().toString().trim());
+                    initProfile_EDT_nickname.setSelection(initProfile_EDT_nickname.length());
+                } else {
+                    removeFilter(initProfile_EDT_nickname);
+                }
             }
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -315,6 +326,28 @@ public class PickLanguageFragment extends Fragment {
 
     private void showLocationOnTextView(String location) {
         initProfile_TXT_locationDetected.setText(location);
+    }
+
+//    util methods to limit nickname editText to 1 word
+    private int countWords(String s) {
+        String trim = s.trim();
+        if (trim.isEmpty())
+            return 0;
+        return trim.split("\\s+").length; // separate string around spaces
+    }
+
+    private InputFilter filter;
+
+    private void setCharLimit(EditText et, int max) {
+        filter = new InputFilter.LengthFilter(max);
+        et.setFilters(new InputFilter[] { filter });
+    }
+
+    private void removeFilter(EditText et) {
+        if (filter != null) {
+            et.setFilters(new InputFilter[0]);
+            filter = null;
+        }
     }
 
 

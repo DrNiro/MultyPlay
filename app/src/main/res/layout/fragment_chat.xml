@@ -6,6 +6,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ChatFragment"
-    android:background="@drawable/chat_coming_soon">
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/chat_TXT_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chat"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:fontFamily="@font/raleway_bold"
+        android:textSize="22sp"
+        android:textColor="@color/black"/>
+
+    <FrameLayout
+        android:id="@+id/chat_SEP_title_main"
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/gray"
+        android:layout_below="@+id/chat_TXT_title"
+        android:layout_marginTop="15dp" />
+
+    <EditText
+        android:id="@+id/chat_EDT_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:drawableLeft="@drawable/ic_search"
+        android:drawablePadding="10dp"
+        android:layout_below="@+id/chat_SEP_title_main"
+        android:fontFamily="@font/roboto_regular"
+        android:hint="Search"
+        android:maxLines="1"
+        android:inputType="text"
+        android:padding="15dp"
+        android:textSize="16sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chat_RCL_allChats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chat_EDT_search"
+        android:layout_marginTop="10dp"
+        >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
 
 </RelativeLayout>

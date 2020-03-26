@@ -24,24 +24,21 @@ public class CreateAccount extends AppCompatActivity {
     private EditText create_EDT_firstName;
     private EditText create_EDT_lastName;
     private EditText create_EDT_email;
-    private EditText create_EDT_confirm_email;
     private EditText create_EDT_password;
+    private EditText create_EDT_confirm_password;
     private RadioGroup create_RAD_GRP_gender;
     private RadioButton selectedGender;
     private Button create_BTN_signup;
 
-//    private boolean validAccount = true;
     private boolean validFirstName = true;
     private boolean validLastName = true;
     private boolean validEmail = true;
     private boolean emailNotExist = true;
-    private boolean validConfirmEmail = false;
-    private boolean matchEmails = false;
     private boolean validPassword = true;
+    private boolean matchPassword = true;
 
     private ArrayList<Account> accounts;
 
-//    private AccountCreatedFragment accountCreatedFragment;
     private Id id;
 
     private Account accountCreated;
@@ -55,15 +52,12 @@ public class CreateAccount extends AppCompatActivity {
         create_EDT_firstName = findViewById(R.id.create_EDT_firstName);
         create_EDT_lastName = findViewById(R.id.create_EDT_lastName);
         create_EDT_email = findViewById(R.id.create_EDT_email);
-        create_EDT_confirm_email = findViewById(R.id.create_EDT_confirm_email);
+        create_EDT_confirm_password = findViewById(R.id.create_EDT_confirm_password);
         create_EDT_password = findViewById(R.id.create_EDT_password);
         create_RAD_GRP_gender = findViewById(R.id.create_RAD_GRP_gender);
         create_BTN_signup = findViewById(R.id.create_BTN_signup);
 
         prefs = new MySharedPreferences(this);
-
-//        accountCreatedFragment = new AccountCreatedFragment();
-//        accountCreatedFragment.setCallback(okCallback);
 
         create_BTN_signup.setOnClickListener(signupBtnListener);
 
@@ -85,12 +79,14 @@ public class CreateAccount extends AppCompatActivity {
                             create_EDT_email.setError("Invalid email");
                         if(!emailNotExist)
                             create_EDT_email.setError("Email is already registered");
-                        if(!validConfirmEmail)
-                            create_EDT_confirm_email.setError("Invalid email");
-                        if(!matchEmails)
-                            create_EDT_confirm_email.setError("Confirm by insert same as email field");
-                        if(!validPassword)
+                        if(!validPassword) {
+                            clearPasswordFields();
                             create_EDT_password.setError("Password must contain at least 6 characters, 1 Uppercase letter and 1 number");
+                        }
+                        if(!matchPassword) {
+                            clearPasswordFields();
+                            create_EDT_confirm_password.setError("Password don't match");
+                        }
                     } else {
 //                        save account created into FireBase and SharedPrefs
                         MyFirebase.setAccount(accountCreated);
@@ -98,9 +94,19 @@ public class CreateAccount extends AppCompatActivity {
                         prefs.putString(Constants.PREFS_KEY_ACCOUNT, jsAccountCreated);
 
                         prefs.putString(Constants.PREFS_KEY_CURRENT_LOGGED_IN, Constants.LOGGED_OUT);
-//                        LoginHelper loginHelper = new LoginHelper(accountCreated, false, false);
-//                        String jsLoginHelper = new Gson().toJson(loginHelper);
-//                        prefs.putString(Constants.PREFS_KEY_CURRENT_LOGGED_IN, jsLoginHelper);
+
+                        Followers emptyFollowers = new Followers(accountCreated.getId().getSerialNum(), new ArrayList<String>());
+                        Following emptyFollowing = new Following(accountCreated.getId().getSerialNum(), new ArrayList<String>());
+                        ChatWith emptyChats = new ChatWith(accountCreated.getId().getSerialNum(), new ArrayList<String>());
+                        MyFirebase.setFollowers(accountCreated, emptyFollowers);
+                        MyFirebase.setFollowing(accountCreated, emptyFollowing);
+                        MyFirebase.setChat(accountCreated, emptyChats);
+                        String jsFollowers = new Gson().toJson(emptyFollowers);
+                        String jsFollowing = new Gson().toJson(emptyFollowing);
+                        String jsChattingWith = new Gson().toJson(emptyChats);
+                        prefs.putString(Constants.PREFS_KEY_MY_FOLLOWERS_LIST, jsFollowers);
+                        prefs.putString(Constants.PREFS_KEY_MY_FOLLOWING_LIST, jsFollowing);
+                        prefs.putString(Constants.PREFS_KEY_MY_OPEN_CHATS, jsChattingWith);
 
                         CreatedAccDialog createdAccDialog = new CreatedAccDialog();
                         createdAccDialog.show(getSupportFragmentManager(), "created account dialog");
@@ -113,11 +119,6 @@ public class CreateAccount extends AppCompatActivity {
                             }
                         });
 
-
-
-//                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//                        transaction.replace(R.id.create_LAY_success, accountCreatedFragment);
-//                        transaction.commit();
                     }
                 }
 
@@ -129,6 +130,11 @@ public class CreateAccount extends AppCompatActivity {
 
         }
     };
+
+    private void clearPasswordFields() {
+        create_EDT_confirm_password.getText().clear();
+        create_EDT_password.getText().clear();
+    }
 
     private void updateLastId(Id id) {
         this.id = id;
@@ -161,19 +167,12 @@ public class CreateAccount extends AppCompatActivity {
                 emailNotExist = false;
             }
         }
-
-//        check if inserted a proper email address into confirm email field.
-        if(validEmail) {
-            String confirmEmailAddress = create_EDT_confirm_email.getText().toString();
-            validConfirmEmail = isEmailValid(confirmEmailAddress);
-            if(validConfirmEmail) {
-                matchEmails = emailAddress.equals(confirmEmailAddress);
-            }
-        }
-
 //        check if password contains 1 Uppercase letter, 1 number and at lease 6 chars.
         String password = create_EDT_password.getText().toString();
         validPassword = isPasswordValid(password);
+//        check if confirm password match password inserted.
+        String confirmPassword = create_EDT_confirm_password.getText().toString();
+        matchPassword = password.equals(confirmPassword);
 
 //        receive selected gender.
         int selectedRadioBtn = create_RAD_GRP_gender.getCheckedRadioButtonId();
@@ -181,7 +180,7 @@ public class CreateAccount extends AppCompatActivity {
         String gender = selectedGender.getText().toString();
 
 //      Check if all validations are true. return account if they are, else return null.
-        boolean[] allValidations = {validFirstName, validLastName, validEmail, emailNotExist, validConfirmEmail, matchEmails, validPassword};
+        boolean[] allValidations = {validFirstName, validLastName, validEmail, emailNotExist, validPassword, matchPassword};
         int counter = 0;
         for (boolean validation : allValidations) {
             if(validation)
@@ -217,19 +216,6 @@ public class CreateAccount extends AppCompatActivity {
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
-
-//    public CallBackApproved okCallback = new CallBackApproved() {
-//        @Override
-//        public void onOkClick() {
-//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//            transaction.remove(accountCreatedFragment);
-//            transaction.commit();
-//            Log.d("vvvGoInitProfile", "acount from prefs: " + prefs.getString(Constants.PREFS_KEY_ACCOUNT, ""));
-//            Intent setupProfileIntent = new Intent(CreateAccount.this, InitialProfileSettings.class);
-//            startActivity(setupProfileIntent);
-//            finish();
-//        }
-//    };
 
     @Override
     public void onBackPressed() {

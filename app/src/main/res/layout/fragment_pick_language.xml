@@ -50,7 +50,7 @@
         <!--android:textSize="12sp"-->
         <!--android:layout_below="@+id/initProfile_TXT_title"/>-->
 
-    <EditText
+    <com.example.multyplay.CutCopyPasteEditText
         android:id="@+id/initProfile_EDT_nickname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -115,6 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
+            android:fontFamily="@font/roboto_regular"
             android:text="Languages I speak"
             android:textColor="@color/darker_gray"
             android:textSize="18sp" />
@@ -135,6 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Must choose at least 1"
+            android:fontFamily="@font/roboto_regular"
             android:layout_below="@+id/initProfile_IMG_editLangs"
             android:textSize="12sp"
             android:layout_marginTop="5dp"/>
@@ -178,6 +180,7 @@
             android:layout_marginTop="5dp"
             android:textColor="@color/darker_gray"
             android:text="Privacy"
+            android:fontFamily="@font/roboto_regular"
             android:textSize="18sp" />
 
         <TextView
@@ -186,8 +189,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/initProfile_TXT_privacyTitle"
             android:layout_marginTop="3dp"
+            android:fontFamily="@font/roboto_regular"
             android:textSize="15sp"
-            android:text="Show location on profile" />
+            android:text="Share location with other gamers" />
 
         <Switch
             android:id="@+id/initProfile_SWC_showLocation"

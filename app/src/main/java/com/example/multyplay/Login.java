@@ -131,8 +131,12 @@ public class Login extends AppCompatActivity {
                             finish();
                         } else {
                             prefs.putString(Constants.PREFS_KEY_CURRENT_LOGGED_IN, Constants.LOGGED_IN);
+                            SearchFilters defaultSearchFilters = new SearchFilters(Constants.DEFAULT_SEARCH_FILTER_MAX_DISTANCE, Constants.DEFAULT_SEARCH_FILTER_MIN_AGE, Constants.DEFAULT_SEARCH_FILTER_MAX_AGE);
+                            String jsSearchFilters = new Gson().toJson(defaultSearchFilters);
+                            prefs.putString(Constants.PREFS_KEY_SEARCH_FILTERS, jsSearchFilters);
+
                             Intent profileIntent = new Intent(Login.this, FragmentManager.class);
-                            profileIntent.putExtra(Constants.KEY_MARK_FOREIN_ACCOUNT, false);
+                            profileIntent.putExtra(Constants.KEY_MARK_IS_OWNER, Constants.MY_PROFILE);
                             startActivity(profileIntent);
                             finish();
                         }

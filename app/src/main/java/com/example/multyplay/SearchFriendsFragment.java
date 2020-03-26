@@ -16,22 +16,23 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.media.Image;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
+import com.jaygoo.widget.RangeSeekBar;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class SearchFriendsFragment extends Fragment {
 
     private View view = null;
     private CallBackEnterOtherAccount callBackEnterOtherAccount;
+    private CallBackApproved callBackLocation;
 
     private RecyclerView searchResultListRecyclerView;
     private ProfileSearchResAdapter profileSearchResAdapter;
@@ -50,25 +52,49 @@ public class SearchFriendsFragment extends Fragment {
 
     private ImageView search_BTN_GPS;
     private RelativeLayout search_LAY_criteria;
+    private ImageView search_BTN_filters;
+    private boolean filtersOpen;
+    private RelativeLayout search_LAY_searchFilters;
+    private TextView seachFilters_BTN_done;
+
+    private SeekBar searchFilters_SKB_distanceBar;
+    private TextView searchFilters_TXT_actualLocation;
+    private RangeSeekBar searchFilters_SKB_minMaxAge;
+    private TextView searchFilters_TXT_actualAgeRange;
 
     private MySharedPreferences prefs;
     private String jsAccount;
     private Account myAccount;
 
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private static final int REQUEST_LOCATION_CODE = 1000;
-    private Location currentLocation;
     private double latitude, longitude;
     private String locationStr;
+    private Location myLocation;
     private MyLocation updatedLocation;
+    private HashMap<String, Double> distancesMap;
+
+    private SearchFilters mySearchFilters;
+    private String jsSearchFilters;
 
     // TODO: 3/16/2020 change how accounts are saved in firebase, maybe by country
     private ArrayList<Account> allAccounts;
     private ArrayList<Account> filteredAccounts;
 
+    private boolean finishedSearch;
+
 
     public void setCallBackEnterOtherAccount(CallBackEnterOtherAccount callback) {
         this.callBackEnterOtherAccount = callback;
+    }
+
+    public void setCallBackLocation(CallBackApproved callBackLocation) {
+        this.callBackLocation = callBackLocation;
+    }
+    public void setMyLocation(Location location) {
+        this.myLocation = location;
+    }
+    public Location getMyLocation() {
+        return this.myLocation;
     }
 
     @Override
@@ -87,50 +113,70 @@ public class SearchFriendsFragment extends Fragment {
 
         prefs = new MySharedPreferences(view.getContext());
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view.getContext());
+        distancesMap = new HashMap<>();
 
         jsAccount = prefs.getString(Constants.PREFS_KEY_ACCOUNT, "");
         myAccount = new Gson().fromJson(jsAccount, Account.class);
 
+        finishedSearch = false;
+        jsSearchFilters = prefs.getString(Constants.PREFS_KEY_SEARCH_FILTERS, "");
+        mySearchFilters = new Gson().fromJson(jsSearchFilters, SearchFilters.class);
+
         accountsListTest = new ArrayList<>();
 
-//        searchResultListRecyclerView = view.findViewById(R.id.search_RCL_searchResults);
-//        searchResultListRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-//        profileSearchResAdapter = new ProfileSearchResAdapter(view.getContext(), accountsListTest);
-//        profileSearchResAdapter.setClickListener(profileItemClickedListener);
-//        searchResultListRecyclerView.setAdapter(profileSearchResAdapter);
+        filtersOpen = false;
+        myLocation = null;
 
+        search_BTN_filters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(finishedSearch) {
+                    resetSearch();
+                }
+                if(filtersOpen) {
+                    search_LAY_searchFilters.setVisibility(View.GONE);
+                    mySearchFilters.setMaxDistance(Integer.parseInt(searchFilters_TXT_actualLocation.getText().toString().split(" ")[0]));
+                    mySearchFilters.setMinAge(Integer.parseInt(searchFilters_TXT_actualAgeRange.getText().toString().split(" ")[0]));
+                    mySearchFilters.setMaxAge(Integer.parseInt(searchFilters_TXT_actualAgeRange.getText().toString().split(" ")[2]));
+                    jsSearchFilters = new Gson().toJson(mySearchFilters);
+                    prefs.putString(Constants.PREFS_KEY_SEARCH_FILTERS, jsSearchFilters);
+                } else {
+                    search_LAY_searchFilters.setVisibility(View.VISIBLE);
+                }
+                filtersOpen = !filtersOpen;
+            }
+        });
+
+        seachFilters_BTN_done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search_BTN_filters.callOnClick();
+            }
+        });
+
+        searchFilters_SKB_distanceBar.setOnSeekBarChangeListener(setDistanceChangeListener);
+
+        searchFilters_SKB_minMaxAge.setValue(mySearchFilters.getMinAge(), mySearchFilters.getMaxAge());
+        final String showRange = mySearchFilters.getMinAge() + " - " + mySearchFilters.getMaxAge();
+        searchFilters_TXT_actualAgeRange.setText(showRange);
+        searchFilters_SKB_minMaxAge.setOnRangeChangedListener(new RangeSeekBar.OnRangeChangedListener() {
+            @Override
+            public void onRangeChanged(RangeSeekBar view, float min, float max, boolean isFromUser) {
+                String range = (int)min + " - " + (int)max;
+                searchFilters_TXT_actualAgeRange.setText(range);
+            }
+        });
+
+//        This button start search with all filters, not only gps.
+//        Gps influence only when account have location.
         search_BTN_GPS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                myLocation = null;
                 String jsAcc = prefs.getString(Constants.PREFS_KEY_ACCOUNT, "");
                 myAccount = new Gson().fromJson(jsAcc, Account.class);
-                if(myAccount.getMyLocation().getAddress().equals(Constants.MSG_LOCATION_NOT_FOUND)) {
-                    askToTurnOnGps();
-                    getLocation();
-                    if (ActivityCompat.checkSelfPermission(
-                            view.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                            view.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        Log.d("bbbRequestLocation", "Request Permission");
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_CODE);
-                    }
-                    return;
-                }
 
-                if(allAccounts == null) {
-                    MyFirebase.getAccounts(new CallBackAccountsReady() {
-                        @Override
-                        public void accountsReady(ArrayList<Account> accounts) {
-                            allAccounts = accounts;
-                            searchByGps(2000);
-                        }
-
-                        @Override
-                        public void error() {
-                        }
-                    });
-                } else {
-                    searchByGps(2000);
-                }
+                callBackLocation.onOkClick();
 
             }
         });
@@ -138,6 +184,77 @@ public class SearchFriendsFragment extends Fragment {
         createProfileResultRecycler();
 
         return view;
+    }
+
+    public void goSearchGO(Location location) {
+        setMyLocation(location);
+        if (myLocation != null) {
+            Log.d("nnn", "Check location found, proceed to results");
+            setProfilesLocation(myLocation);
+            MyFirebase.getAccounts(new CallBackAccountsReady() {
+                @Override
+                public void accountsReady(ArrayList<Account> accounts) {
+                    allAccounts = accounts;
+                    searchByGps(mySearchFilters.getMaxDistance());
+                    searchByAge(mySearchFilters.getMinAge(), mySearchFilters.getMaxAge());
+
+                    searchResultListRecyclerView.setVisibility(View.VISIBLE);
+                    search_LAY_criteria.setVisibility(View.GONE);
+                    showResult(distancesMap);
+                    finishedSearch = true;
+                }
+
+                @Override
+                public void error() {
+                }
+            });
+        } else {
+            Log.d("nnn", "Check location == null, showing please wait");
+            if(isGpsAvailable()) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(view.getContext())
+                        .setTitle("Message")
+                        .setMessage("\nLooking for location!\n\nPlease wait and try again in a few seconds.\n")
+                        .setPositiveButton("OK", null);
+                alertDialog.show();
+            }
+        }
+    }
+
+    public void resetSearch() {
+        searchResultListRecyclerView.setVisibility(View.GONE);
+        search_LAY_criteria.setVisibility(View.VISIBLE);
+    }
+
+    private void searchByAge(int minAge, int maxAge) {
+        ArrayList<Account> filteredAccounts2 = new ArrayList<>();
+        filteredAccounts2.addAll(filteredAccounts);
+        for(Account acc : filteredAccounts2) {
+            if(minAge > acc.getAge() || acc.getAge() > maxAge) {
+                filteredAccounts.remove(acc);
+            }
+        }
+    }
+
+    private SeekBar.OnSeekBarChangeListener setDistanceChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+            String newDistance = progress + Constants.MIN_SEARCH_DISTANCE + " km";
+            searchFilters_TXT_actualLocation.setText(newDistance);
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
+    };
+
+    public boolean isFinishedSearch() {
+        return finishedSearch;
     }
 
     @Override
@@ -149,11 +266,11 @@ public class SearchFriendsFragment extends Fragment {
 
     private void searchByGps(double radius) {
         filteredAccounts = new ArrayList<>();
-        HashMap<String, Double> distancesMap = new HashMap<>();
         for(Account acc : allAccounts) {
             if(acc.getMyLocation() != null) {
                 if(!acc.getMyLocation().getAddress().equals(Constants.MSG_LOCATION_NOT_FOUND)) {
                     double distance = distanceInKm(myAccount.getMyLocation().getLatitude(), myAccount.getMyLocation().getLongitute(), acc.getMyLocation().getLatitude(), acc.getMyLocation().getLongitute());
+                    Log.d("www", "searchByGps() distance: " + distance + " " + acc.getNickName());
                     if(distance <= radius && !acc.getEmail().toString().equalsIgnoreCase(myAccount.getEmail().toString()) && acc.isLocationAllowed()) {
                         filteredAccounts.add(acc);
                         distancesMap.put(acc.getEmail().toString(), distance);
@@ -161,9 +278,6 @@ public class SearchFriendsFragment extends Fragment {
                 }
             }
         }
-        searchResultListRecyclerView.setVisibility(View.VISIBLE);
-        search_LAY_criteria.setVisibility(View.GONE);
-        showResult(distancesMap);
     }
 
     @Override
@@ -182,6 +296,16 @@ public class SearchFriendsFragment extends Fragment {
         searchResultListRecyclerView.setAdapter(profileSearchResAdapter);
     }
 
+    private void showResult() {
+        Log.d("ggg", "here?");
+        searchResultListRecyclerView = view.findViewById(R.id.search_RCL_searchResults);
+        searchResultListRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        profileSearchResAdapter = new ProfileSearchResAdapter(view.getContext(), filteredAccounts);
+        profileSearchResAdapter.setMap(distancesMap);
+        profileSearchResAdapter.setClickListener(profileItemClickedListener);
+        searchResultListRecyclerView.setAdapter(profileSearchResAdapter);
+    }
+
     private void createProfileResultRecycler() {
         //      creating GameCards recyclerView
         searchResultListRecyclerView = view.findViewById(R.id.search_RCL_searchResults);
@@ -192,8 +316,15 @@ public class SearchFriendsFragment extends Fragment {
     }
 
     private void findViews() {
+        seachFilters_BTN_done = view.findViewById(R.id.seachFilters_BTN_done);
         search_BTN_GPS = view.findViewById(R.id.search_BTN_GPS);
         search_LAY_criteria = view.findViewById(R.id.search_LAY_criteria);
+        search_BTN_filters = view.findViewById(R.id.search_BTN_filters);
+        search_LAY_searchFilters= view.findViewById(R.id.search_LAY_searchFilters);
+        searchFilters_TXT_actualLocation = view.findViewById(R.id.searchFilters_TXT_actualLocation);
+        searchFilters_SKB_distanceBar = view.findViewById(R.id.searchFilters_SKB_distanceBar);
+        searchFilters_SKB_minMaxAge = view.findViewById(R.id.searchFilters_SKB_minMaxAge);
+        searchFilters_TXT_actualAgeRange = view.findViewById(R.id.searchFilters_TXT_actualAgeRange);
     }
 
     private ProfileSearchResAdapter.ItemClickListener profileItemClickedListener = new ProfileSearchResAdapter.ItemClickListener() {
@@ -212,6 +343,7 @@ public class SearchFriendsFragment extends Fragment {
                 + Math.cos(deg2rad(lat1))
                 * Math.cos(deg2rad(lat2))
                 * Math.cos(deg2rad(theta));
+//        dist = Double.parseDouble(new DecimalFormat("##.####").format(dist));
         dist = Math.acos(dist);
         dist = rad2deg(dist);
         dist = dist * 60 * 1.1515;
@@ -226,84 +358,22 @@ public class SearchFriendsFragment extends Fragment {
         return (rad * 180.0 / Math.PI);
     }
 
-    public boolean isGpsAvailable() {
-        LocationManager lm = (LocationManager)view.getContext().getSystemService(view.getContext().LOCATION_SERVICE);
-        boolean gps_enabled = false;
-
-        try {
-            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch(Exception ex) {}
-
-        return gps_enabled;
-    }
-
-    public boolean isNetworkAvailable() {
-        LocationManager lm = (LocationManager)view.getContext().getSystemService(view.getContext().LOCATION_SERVICE);
-        boolean network_enabled = false;
-
-        try {
-            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-        } catch(Exception ex) {}
-
-        return network_enabled;
-    }
-
-    public void askToTurnOnGps() {
-        new AlertDialog.Builder(view.getContext())
-                .setMessage("Cannot perform search while GPS network not enabled.\nPlease turn GPS on and try again.\nIf already turned GPD on, please wait a minute (or few) for a connection")
-                .setPositiveButton("Open location settings", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("Cancel ",null)
-                .show();
-    }
-
-    private void getLocation() {
-        //check location permissions
-        if (ActivityCompat.checkSelfPermission(
-                view.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                view.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_CODE);
-            return;
-        }
-        //set location
-        Task<Location> task = fusedLocationProviderClient.getLastLocation();
-        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    currentLocation = location;
-                    longitude = location.getLongitude();
-                    latitude = location.getLatitude();
-                    updatedLocation = new MyLocation(longitude, latitude, setLocation(latitude, longitude));
+    private void setProfilesLocation(Location location) {
+        longitude = location.getLongitude();
+        latitude = location.getLatitude();
+        updatedLocation = new MyLocation(longitude, latitude, applyGcoder(latitude, longitude));
 //                    update Profiles location.
-                    String jsAcc = prefs.getString(Constants.PREFS_KEY_ACCOUNT, "");
-                    Account acc = new Gson().fromJson(jsAcc, Account.class);
-                    if (!acc.getMyLocation().getAddress().equals(Constants.MSG_LOCATION_NOT_FOUND) && updatedLocation.getAddress().equals(Constants.MSG_LOCATION_NOT_FOUND)) {
-                        return;
-                    } else {
-                        acc.setMyLocation(updatedLocation);
-                        jsAcc = new Gson().toJson(acc);
-                        prefs.putString(Constants.PREFS_KEY_ACCOUNT, jsAcc);
-                        MyFirebase.setAccount(acc);
-                        myAccount = acc;
-                    }
-                    Log.d("bbbLocationSearch", "onSuccess: " + latitude + " " + longitude);
-                } else {
-                    longitude = 1;
-                    latitude = 1;
-                    updatedLocation = new MyLocation(longitude, latitude, Constants.MSG_LOCATION_NOT_FOUND);
-                    Log.d("bbbLocationSearch", "else (not success): " + latitude + " " + longitude);
-                }
-            }
-        });
+        String jsAcc = prefs.getString(Constants.PREFS_KEY_ACCOUNT, "");
+        Account acc = new Gson().fromJson(jsAcc, Account.class);
+        acc.setMyLocation(updatedLocation);
+        jsAcc = new Gson().toJson(acc);
+        prefs.putString(Constants.PREFS_KEY_ACCOUNT, jsAcc);
+//        acc.setOnline(true);
+        MyFirebase.setAccount(acc);
+        myAccount = acc;
     }
 
-    private String setLocation(double latitude, double longitude) {
+    private String applyGcoder(double latitude, double longitude) {
         Geocoder geocoder;
         List<Address> addresses;
         geocoder = new Geocoder(view.getContext(), Locale.getDefault());
@@ -329,6 +399,18 @@ public class SearchFriendsFragment extends Fragment {
             e.printStackTrace();
         }
         return Constants.MSG_LOCATION_NOT_FOUND;
+    }
+
+    public boolean isGpsAvailable() {
+        LocationManager lm = (LocationManager) view.getContext().getSystemService(view.getContext().LOCATION_SERVICE);
+        boolean gps_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception ex) {
+        }
+
+        return gps_enabled;
     }
 
 }

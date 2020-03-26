@@ -36,39 +36,6 @@ public class LangListAdapter extends RecyclerView.Adapter<LangListAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Language language = mData.get(position);
 
-//        int county_image_id = 0;
-//        switch (language.getLangName()) {
-//            case Constants.HEBREW:
-//                county_image_id = R.drawable.ic_israel_flag;
-//                break;
-//            case Constants.ENGLISH_AMERICAN:
-//                county_image_id = R.drawable.ic_usa_flag;
-//                break;
-//            case Constants.ENGLISH_BRITISH:
-//                county_image_id = R.drawable.ic_uk_flag;
-//                break;
-//            case Constants.DEUTSCH:
-//                county_image_id = R.drawable.ic_german_flag;
-//                break;
-//            case Constants.ITALIAN:
-//                county_image_id = R.drawable.ic_italy_flag;
-//                break;
-//            case Constants.ARABIC:
-//                county_image_id = R.drawable.ic_suadi_arabia_flag;
-//                break;
-//            case Constants.ESPANOL:
-//                county_image_id = R.drawable.flag_spanish;
-//                break;
-//            case Constants.RUSSIAN:
-//                county_image_id = R.drawable.ic_russia_flag;
-//                break;
-//            default:
-//                county_image_id = R.drawable.ic_q_mark;
-//                break;
-//        }
-//        holder.languageImageView.setImageResource(county_image_id);
-
-
         holder.languageImageView.setImageResource(language.getFlag());
         holder.languageNameTextView.setText(String.valueOf(language.getLangName()));
     }

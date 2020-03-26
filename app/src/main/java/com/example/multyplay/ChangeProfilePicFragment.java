@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,9 +81,10 @@ public class ChangeProfilePicFragment extends Fragment {
         changePPic_BTN_apply.setVisibility(View.INVISIBLE);
 
         prefs = new MySharedPreferences(view.getContext());
+
 //        get current account's id to replace its profile picture in storage appropriately.
-        account_serial_num = prefs.getString(Constants.PREFS_KEY_ACCOUNT_SERIAL, "Test");
         account = new Gson().fromJson(prefs.getString(Constants.PREFS_KEY_ACCOUNT, ""), Account.class);
+        account_serial_num = account.getId().getSerialNum() + ""; //prefs.getString(Constants.PREFS_KEY_ACCOUNT_SERIAL, "Test");
 
         storageReference = FirebaseStorage.getInstance().getReference("profile_pictures");
         databaseReference = FirebaseDatabase.getInstance().getReference("Accounts");
@@ -142,6 +144,7 @@ public class ChangeProfilePicFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("sss", "ChangeProfilePicFrag resultCode: " + resultCode);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
             Glide.with(this)

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/editGames_TXT_games"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/raleway_medium"
+        android:text="Choose games"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/editGames_RCL_gamesGrid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editGames_TXT_games"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <!--<TextView-->
+    <!--android:id="@+id/editGame_TXT_title"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_marginTop="15dp"-->
+    <!--android:fontFamily="@font/raleway_medium"-->
+    <!--android:text="Choose Languages"-->
+    <!--android:textColor="@color/black"-->
+    <!--android:textSize="25sp" />-->
+
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/editGame_LAY_langLayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/editLanguage_TXT_title"-->
+    <!--android:layout_marginTop="15dp"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:layout_marginLeft="10dp">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/editGame_TXT_chooseLang"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="7dp"-->
+    <!--android:text="Languages I speak"-->
+    <!--android:fontFamily="@font/roboto_regular"-->
+    <!--android:textColor="@color/darker_gray"-->
+    <!--android:textSize="18sp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/editLanguage_TXT_langDirections"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:fontFamily="@font/roboto_regular"-->
+    <!--android:text="Must choose at least 1"-->
+    <!--android:layout_below="@+id/editLanguage_TXT_chooseLang"-->
+    <!--android:textSize="12sp"-->
+    <!--android:layout_marginTop="5dp"/>-->
+
+    <!--<androidx.recyclerview.widget.RecyclerView-->
+    <!--android:id="@+id/editLanguage_RCL_chooseLangs"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/editLanguage_TXT_langDirections"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--&gt;-->
+
+    <!--</androidx.recyclerview.widget.RecyclerView>-->
+    <!---->
+    <!--</RelativeLayout>-->
+
+</RelativeLayout>

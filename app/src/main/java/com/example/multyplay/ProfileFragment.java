@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +23,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class ProfileFragment extends Fragment {
@@ -36,17 +39,26 @@ public class ProfileFragment extends Fragment {
     private LinearLayout profile_LAY_relativeLocation;
     // at first show "Insert profile Description"
     private TextView profile_TXT_description;
-    private ImageView profile_BTN_editDescription;
-    private LinearLayout profile_LAY_topButtons;
     private TextView profile_TXT_numOfGamesOwned;
     private ImageView profile_IMG_changeProfilePicBtn;
     private ImageView profile_IMG_changecoverPicBtn;
     private ImageView profile_IMG_settingsBtn;
+    private RelativeLayout profile_LAY_settings;
     private RelativeLayout profile_LAY_changeProfilePic;
     private RelativeLayout profile_LAY_changeCoverPic;
     private TextView profile_TXT_onlineState;
     private ImageView profile_IMG_onlineState;
-    private Button profile_BTN_follow;
+    private RelativeLayout profile_LAY_topButtons;
+    private RelativeLayout profile_LAY_topButtonsOwner;
+    private ImageView profile_BTN_follow;
+    private TextView profile_TXT_follow;
+    private ImageView profile_BTN_Message;
+    private ImageView profile_BTN_followingOwner;
+    private ImageView profile_BTN_followersOwner;
+
+    private TextView profile_BTN_editDescription;
+    private TextView profile_BTN_editLanguages;
+    private TextView profile_BTN_editGames;
 
     private RoundedImageView profile_RDV_pic;
     private ImageView profile_IMG_coverPic;
@@ -97,7 +109,53 @@ public class ProfileFragment extends Fragment {
         profile_BTN_editDescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: 2/22/2020 open an edit description window (maybe fragment)
+                EditDescriptionDialog editDescriptionDialog = new EditDescriptionDialog();
+                editDescriptionDialog.setCallBackApproved(new CallBackEditStringReady() {
+                    @Override
+                    public void stringReady(String editedString) {
+                        account.setDescription(editedString);
+                        jsAccount = new Gson().toJson(account);
+                        prefs.putString(Constants.PREFS_KEY_ACCOUNT, jsAccount);
+                        MyFirebase.setAccount(account);
+                        profile_TXT_description.setText(editedString);
+                    }
+                });
+                editDescriptionDialog.show(getActivity().getSupportFragmentManager(), "Edit description dialog");
+
+            }
+        });
+
+        profile_BTN_editLanguages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditLanguagesDialog editLanguagesDialog = new EditLanguagesDialog();
+                editLanguagesDialog.setCallBackApproved(new CallBackApproved() {
+                    @Override
+                    public void onOkClick() {
+                        jsAccount = prefs.getString(Constants.PREFS_KEY_ACCOUNT, "");
+                        account = new Gson().fromJson(jsAccount, Account.class);
+                        createLanguagesRecycler(account);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                editLanguagesDialog.show(getActivity().getSupportFragmentManager(), "Edit languages dialog");
+            }
+        });
+
+        profile_BTN_editGames.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditGamesDialog editGamesDialog = new EditGamesDialog();
+                editGamesDialog.setCallBackApproved(new CallBackApproved() {
+                    @Override
+                    public void onOkClick() {
+                        jsAccount = prefs.getString(Constants.PREFS_KEY_ACCOUNT, "");
+                        account = new Gson().fromJson(jsAccount, Account.class);
+                        createGamesRecyclerGrid(account);
+                        gamesAdapter.notifyDataSetChanged();
+                    }
+                });
+                editGamesDialog.show(getActivity().getSupportFragmentManager(), "Edit games dialog");
             }
         });
 
@@ -124,26 +182,126 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-//        profile_BTN_follow.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(profile_BTN_follow.isEnabled()) {
-//                    String emailVis = visitedAccount.getEmail().toString();
-//                    ArrayList<String> iFollow = account.getFollowing();
-//                    iFollow.add(emailVis);
-//                    account.setFollowing(iFollow);
-//
-//                    String myEmail = account.getEmail().toString();
-//                    ArrayList<String> visFollowers = visitedAccount.getFollowMe();
-//                    visFollowers.add(myEmail);
-//                    visitedAccount.setFollowMe(visFollowers);
-//                    profile_BTN_follow.setEnabled(false);
-//                } else {
-//                    // TODO: 3/17/2020 unfollow with by drawable id
-//                }
-//
-//            }
-//        });
+        profile_BTN_followingOwner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callBackClickedBtn.buttonClicked(view);
+            }
+        });
+
+        profile_BTN_followersOwner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callBackClickedBtn.buttonClicked(view);
+            }
+        });
+
+        profile_BTN_follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                jsAccount = prefs.getString(Constants.PREFS_KEY_ACCOUNT, "");
+                account = new Gson().fromJson(jsAccount, Account.class);
+
+                String jsFollowing = prefs.getString(Constants.PREFS_KEY_MY_FOLLOWING_LIST, "");
+                Following myFollowing = new Gson().fromJson(jsFollowing, Following.class);
+                ArrayList<String> followList = myFollowing.getFollowing();
+                if(followList == null) {
+                    followList = new ArrayList<>();
+                }
+
+                if(profile_TXT_follow.getText().equals(Constants.FOLLOW)) { // add to follow lists
+                    followList.add(visitedAccount.getId().getSerialNum() + "");
+                    myFollowing.setFollowing(followList);
+                    jsFollowing = new Gson().toJson(myFollowing);
+                    prefs.putString(Constants.PREFS_KEY_MY_FOLLOWING_LIST, jsFollowing);
+                    MyFirebase.setFollowing(account, myFollowing);
+
+                    MyFirebase.getFollowers(new CallBackFollowListReady() {
+                        @Override
+                        public void followingListReady(Following following) {
+                        }
+
+                        @Override
+                        public void followersListReady(Followers followers) {
+                            Followers visitedFollowers = followers;
+                            ArrayList<String> followersList = visitedFollowers.getFollowers();
+                            if(followersList == null) {
+                                followersList = new ArrayList<>();
+                            }
+                            followersList.add(account.getId().getSerialNum() + "");
+                            visitedFollowers.setFollowers(followersList);
+                            MyFirebase.setFollowers(visitedAccount, visitedFollowers);
+                        }
+
+                        @Override
+                        public void listIsEmpty() {
+                            ArrayList<String> followers = new ArrayList<>();
+                            followers.add(account.getId().getSerialNum() + "");
+                            Followers newFollowersList = new Followers(visitedAccount.getId().getSerialNum(), followers);
+                            MyFirebase.setFollowers(visitedAccount, newFollowersList);
+                        }
+                    }, visitedAccount);
+                    profile_TXT_follow.setText(Constants.FOLLOWING);
+                } else if(profile_TXT_follow.getText().equals(Constants.FOLLOWING)) { // remove from follow lists
+                    followList.remove(visitedAccount.getId().getSerialNum() + "");
+                    myFollowing.setFollowing(followList);
+                    jsFollowing = new Gson().toJson(myFollowing);
+                    prefs.putString(Constants.PREFS_KEY_MY_FOLLOWING_LIST, jsFollowing);
+                    MyFirebase.setFollowing(account, myFollowing);
+
+                    MyFirebase.getFollowers(new CallBackFollowListReady() {
+                        @Override
+                        public void followingListReady(Following following) {
+                        }
+
+                        @Override
+                        public void followersListReady(Followers followers) {
+                            Followers visitedFollowers = followers;
+                            ArrayList<String> followersList = visitedFollowers.getFollowers();
+                            followersList.remove(account.getId().getSerialNum() + "");
+                            visitedFollowers.setFollowers(followersList);
+                            MyFirebase.setFollowers(visitedAccount, visitedFollowers);
+                        }
+
+                        @Override
+                        public void listIsEmpty() {
+//                        Ideal to never be empty
+                        }
+                    }, visitedAccount);
+                    profile_TXT_follow.setText(Constants.FOLLOW);
+                }
+
+            }
+        });
+
+        profile_BTN_Message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                jsAccount = prefs.getString(Constants.PREFS_KEY_ACCOUNT, "");
+                account = new Gson().fromJson(jsAccount, Account.class);
+
+                String jsChattingWith = prefs.getString(Constants.PREFS_KEY_MY_OPEN_CHATS, "");
+                ChatWith myOpenChats = new Gson().fromJson(jsChattingWith, ChatWith.class);
+                ArrayList<String> chatsList = myOpenChats.getChattingWith();
+                if(chatsList == null) {
+                    chatsList = new ArrayList<>();
+                }
+
+                if(!chatsList.contains(visitedAccount.getId().getSerialNum()+"")) {
+                    chatsList.add(visitedAccount.getId().getSerialNum()+"");
+                    myOpenChats.setChattingWith(chatsList);
+                    MyFirebase.setChat(account, myOpenChats);
+                    jsChattingWith = new Gson().toJson(myOpenChats);
+                    prefs.putString(Constants.PREFS_KEY_MY_OPEN_CHATS, jsChattingWith);
+                }
+
+                callBackClickedBtn.buttonClicked(view);
+                Intent chatWindowIntent = new Intent(view.getContext(), ChatWindow.class);
+                String jsChatWithAccount = new Gson().toJson(visitedAccount);
+                chatWindowIntent.putExtra(Constants.KEY_CHAT_WITH, jsChatWithAccount);
+                startActivity(chatWindowIntent);
+            }
+        });
 
         return view;
     }
@@ -157,7 +315,8 @@ public class ProfileFragment extends Fragment {
     }
 
     private void findViews() {
-        profile_BTN_follow = view.findViewById(R.id.profile_BTN_follow);
+        profile_BTN_editLanguages = view.findViewById(R.id.profile_BTN_editLanguages);
+        profile_BTN_editGames = view.findViewById(R.id.profile_BTN_editGames);
         profile_IMG_changeProfilePicBtn = view.findViewById(R.id.profile_IMG_changeProfilePicBtn);
         profile_IMG_changecoverPicBtn = view.findViewById(R.id.profile_IMG_changecoverPicBtn);
         profile_IMG_settingsBtn = view.findViewById(R.id.profile_IMG_settingsBtn);
@@ -165,6 +324,7 @@ public class ProfileFragment extends Fragment {
         profile_LAY_active_status = view.findViewById(R.id.profile_LAY_active_status);
         profile_TXT_name = view.findViewById(R.id.profile_TXT_name);
         profile_TXT_age = view.findViewById(R.id.profile_TXT_age);
+        profile_LAY_settings = view.findViewById(R.id.profile_LAY_settings);
         profile_LAY_relativeLocation = view.findViewById(R.id.profile_LAY_relativeLocation);
         profile_TXT_description = view.findViewById(R.id.profile_TXT_description);
         profile_BTN_editDescription = view.findViewById(R.id.profile_BTN_editDescription);
@@ -176,6 +336,12 @@ public class ProfileFragment extends Fragment {
         profile_LAY_changeCoverPic = view.findViewById(R.id.profile_LAY_changeCoverPic);
         profile_IMG_onlineState = view.findViewById(R.id.profile_IMG_onlineState);
         profile_TXT_onlineState = view.findViewById(R.id.profile_TXT_onlineState);
+        profile_LAY_topButtonsOwner = view.findViewById(R.id.profile_LAY_topButtonsOwner);
+        profile_BTN_follow = view.findViewById(R.id.profile_BTN_follow);
+        profile_TXT_follow = view.findViewById(R.id.profile_TXT_follow);
+        profile_BTN_Message = view.findViewById(R.id.profile_BTN_Message);
+        profile_BTN_followingOwner = view.findViewById(R.id.profile_BTN_followingOwner);
+        profile_BTN_followersOwner = view.findViewById(R.id.profile_BTN_followersOwner);
     }
 
     private void updateOwnersProfile() {
@@ -193,6 +359,7 @@ public class ProfileFragment extends Fragment {
         if(!accDescription.trim().equals(""))
             profile_TXT_description.setText(account.getDescription());
         profile_LAY_topButtons.setVisibility(View.GONE);
+        profile_LAY_topButtonsOwner.setVisibility(View.VISIBLE);
 //        show account's games
         if(account.getGames() == null) {
             profile_TXT_numOfGamesOwned.setText(String.valueOf(0));
@@ -244,16 +411,15 @@ public class ProfileFragment extends Fragment {
             profile_IMG_onlineState.setImageResource(R.drawable.ic_red_dot);
             profile_TXT_onlineState.setText("Offline");
         }
-//        if(account.getFollowing().contains(visitedAccount.getEmail().toString())) {
-//            profile_BTN_follow.setEnabled(false);
-//        } else {
-//            profile_BTN_follow.setEnabled(true);
-//        }
+        setFollowingBtnState();
         profile_BTN_editDescription.setVisibility(View.GONE);
+        profile_BTN_editLanguages.setVisibility(View.GONE);
+        profile_BTN_editGames.setVisibility(View.GONE);
         profile_IMG_onlineState.setVisibility(View.VISIBLE);
         profile_TXT_onlineState.setVisibility(View.VISIBLE);
         profile_LAY_changeProfilePic.setVisibility(View.GONE);
         profile_LAY_changeCoverPic.setVisibility(View.GONE);
+        profile_LAY_settings.setVisibility(View.GONE);
         profile_LAY_active_status.setVisibility(View.VISIBLE);
         String nameWithComma = visitedAccount.getNickName() + ",";
         profile_TXT_name.setText(nameWithComma);
@@ -273,6 +439,7 @@ public class ProfileFragment extends Fragment {
         if(!accDescription.trim().equals(""))
             profile_TXT_description.setText(accDescription);
         profile_LAY_topButtons.setVisibility(View.VISIBLE);
+        profile_LAY_topButtonsOwner.setVisibility(View.GONE);
 //        show account's games
         if(visitedAccount.getGames() == null) {
             profile_TXT_numOfGamesOwned.setText(String.valueOf(0));
@@ -315,13 +482,31 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    private void setFollowingBtnState() {
+        String jsFollowing = prefs.getString(Constants.PREFS_KEY_MY_FOLLOWING_LIST, "");
+        Log.d("fff", "following list: " + jsFollowing);
+        Following followingList = new Gson().fromJson(jsFollowing, Following.class);
+        if(followingList.getFollowing() == null) {
+            profile_TXT_follow.setText(Constants.FOLLOW);
+        } else {
+            for(String id : followingList.getFollowing()) {
+                Log.d("fffg", "id: " + id + ". visited id: " + visitedAccount.getId().getSerialNum());
+                if((visitedAccount.getId().getSerialNum() + "").equals(id)) {
+                    profile_TXT_follow.setText(Constants.FOLLOWING);
+                    return;
+                } else {
+                    profile_TXT_follow.setText(Constants.FOLLOW);
+                }
+            }
+        }
+    }
+
     private void updateCurrentAccount() {
-        jsAccount = prefs.getString(Constants.PREFS_KEY_ACCOUNT, "");
         Log.d("vvvProfileFragUpdate", "account: " + jsAccount);
-//        Log.d("vvv", "jsAccount: " + jsAccount);
+        jsAccount = prefs.getString(Constants.PREFS_KEY_ACCOUNT, "");
         account = new Gson().fromJson(jsAccount, Account.class);
-        prefs.putString(Constants.PREFS_KEY_ACCOUNT_SERIAL, account.getId().getSerialNum()+"");
-        MyFirebase.setAccount(account);
+        //prefs.putString(Constants.PREFS_KEY_ACCOUNT_SERIAL, account.getId().getSerialNum()+"");
+//        MyFirebase.setAccount(account);
     }
 
     private void setVisitedAccount() {
@@ -406,5 +591,7 @@ public class ProfileFragment extends Fragment {
     private int getScreenHeight() {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
+
+
 
 }

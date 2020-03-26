@@ -3,16 +3,10 @@ package com.example.multyplay;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-
-import jp.wasabeef.glide.transformations.CropTransformation;
 
 public class LandningPage extends AppCompatActivity {
 
@@ -32,7 +26,7 @@ public class LandningPage extends AppCompatActivity {
         if(loggedState.equals(Constants.LOGGED_IN)) {
 //            prefs.putString(Constants.PREFS_KEY_CURRENT_LOGGED_IN, Constants.LOGGED_IN);
             Intent profileIntent = new Intent(LandningPage.this, FragmentManager.class);
-            profileIntent.putExtra(Constants.KEY_MARK_FOREIN_ACCOUNT, true);
+            profileIntent.putExtra(Constants.KEY_MARK_IS_OWNER, Constants.MY_PROFILE);
             startActivity(profileIntent);
             finish();
         }

@@ -83,16 +83,4 @@
         android:textSize="16sp"
         android:visibility="invisible"/>
 
-    <TextView
-        android:id="@+id/changeCover_TXT_uploadNote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/changeCover_BTN_upload"
-        android:layout_alignBottom="@+id/changeCover_BTN_upload"
-        android:layout_marginStart="25dp"
-        android:layout_toRightOf="@+id/changeCover_BTN_upload"
-        android:gravity="center"
-        android:text="Press upload"
-        android:textSize="16sp" />
-
 </RelativeLayout>

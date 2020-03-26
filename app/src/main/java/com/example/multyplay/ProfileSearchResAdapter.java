@@ -103,15 +103,19 @@ public class ProfileSearchResAdapter extends RecyclerView.Adapter<ProfileSearchR
         }
 
         if(account.getGames() != null) {
-            if(account.getGames().Size() > 3) {
+            int numOfGames = account.getGames().Size();
+            if(numOfGames >= 3) {
                 holder.searchRes_IMG_game1.setImageResource(account.getGames().getGames().get(0).getThumbnail());
                 holder.searchRes_IMG_game2.setImageResource(account.getGames().getGames().get(1).getThumbnail());
                 holder.searchRes_IMG_game3.setImageResource(account.getGames().getGames().get(2).getThumbnail());
-            } else if(account.getGames().Size() > 2) {
+                if(numOfGames > 3) {
+                    holder.searchRes_TXT_plusSign.setVisibility(View.VISIBLE);
+                }
+            } else if(numOfGames == 2) {
                 holder.searchRes_IMG_game1.setImageResource(account.getGames().getGames().get(0).getThumbnail());
                 holder.searchRes_IMG_game2.setImageResource(account.getGames().getGames().get(1).getThumbnail());
                 holder.searchRes_IMG_game3.setVisibility(View.GONE);
-            } else if(account.getGames().Size() > 1) {
+            } else if(numOfGames == 1) {
                 holder.searchRes_IMG_game1.setImageResource(account.getGames().getGames().get(0).getThumbnail());
                 holder.searchRes_IMG_game2.setVisibility(View.GONE);
                 holder.searchRes_IMG_game3.setVisibility(View.GONE);
@@ -148,8 +152,7 @@ public class ProfileSearchResAdapter extends RecyclerView.Adapter<ProfileSearchR
         ImageView searchRes_IMG_game3;
         ImageView searchRes_IMG_onlineState;
         TextView searchRes_TXT_description;
-//        ImageView searchRes_BTN_addFriend;
-
+        TextView searchRes_TXT_plusSign;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -161,7 +164,7 @@ public class ProfileSearchResAdapter extends RecyclerView.Adapter<ProfileSearchR
             searchRes_IMG_game3 = itemView.findViewById(R.id.searchRes_IMG_game3);
             searchRes_IMG_onlineState = itemView.findViewById(R.id.searchRes_IMG_onlineState);
             searchRes_TXT_description = itemView.findViewById(R.id.searchRes_TXT_description);
-            //            searchRes_BTN_addFriend = itemView.findViewById(R.id.searchRes_BTN_addFriend);
+            searchRes_TXT_plusSign = itemView.findViewById(R.id.searchRes_TXT_plusSign);
             itemView.setOnClickListener(this);
         }
 

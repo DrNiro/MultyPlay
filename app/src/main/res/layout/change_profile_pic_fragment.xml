@@ -51,17 +51,5 @@
         android:text="Apply"
         android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/changePPic_TXT_uploadNote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/BTN_upload"
-        android:layout_alignBottom="@+id/BTN_upload"
-        android:layout_marginStart="25dp"
-        android:layout_toRightOf="@+id/BTN_upload"
-        android:gravity="center"
-        android:text="Press upload"
-        android:textSize="16sp" />
-
 
 </RelativeLayout>

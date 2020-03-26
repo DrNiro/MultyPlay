@@ -2,7 +2,6 @@ package com.example.multyplay;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -68,7 +66,7 @@ public class PickGamesFragment extends Fragment {
     private void createGamesRecycler() {
         gamesRecyclerView = view.findViewById(R.id.pickGames_RCL_gamesGrid);
         gamesRecyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 3));
-        gamesAdapter = new GameCardViewListAdapter(view.getContext(), GamesConstants.getAllLangsList());
+        gamesAdapter = new GameCardViewListAdapter(view.getContext(), GamesConstants.getAllGamesList());
         gamesAdapter.setClickListener(myGamesAdapterClickListener);
         gamesRecyclerView.setAdapter(gamesAdapter);
     }

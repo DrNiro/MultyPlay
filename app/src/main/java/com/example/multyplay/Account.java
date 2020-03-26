@@ -35,7 +35,7 @@ public class Account {
         setAge(1);
         setEmail(email);
         setPassword(password);
-        setBirthday(new Birthday(1, 1, 1992));
+//        setBirthday(new Birthday(1, 1, 1992));
         setGender(gender);
         setGames(new GameList());
         setLanguages(new LanguageList());
@@ -74,9 +74,10 @@ public class Account {
     public void setAge(int age) {
         if (age > 99) {
             this.age = 99;
+        } else {
+            this.age = age;
         }
-        this.age = age;
-        setBirthday(new Birthday(1, 1, Calendar.getInstance().get(Calendar.YEAR) - getAge()));
+        setBirthday(new Birthday(1, 1, Calendar.getInstance().get(Calendar.YEAR) - age));
     }
 
     public MyLocation getMyLocation() {

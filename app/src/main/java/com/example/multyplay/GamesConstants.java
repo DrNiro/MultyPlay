@@ -37,7 +37,7 @@ public class GamesConstants {
 
 
 
-    public static ArrayList<Game> getAllLangsList() {
+    public static ArrayList<Game> getAllGamesList() {
         ArrayList<Game> allGamesList = new ArrayList<>();
         allGamesList.add(CALL_OF_DUTY_3);
         allGamesList.add(FIFA_2020);

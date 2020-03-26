@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatWindow">
+
+    <com.example.multyplay.RoundedImageView
+        android:id="@+id/chatWindow_IMG_pic"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/ic_empty_profile_pic"
+        />
+
+    <TextView
+        android:id="@+id/chatWindow_TXT_chatWithName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="nickname"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/raleway_bold"
+        android:textSize="22sp"
+        android:textColor="@color/black"
+        android:layout_toRightOf="@+id/chatWindow_IMG_pic"
+        android:layout_marginLeft="10dp"/>
+
+    <FrameLayout
+        android:id="@+id/chatWindow_SEP_title_main"
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/gray"
+        android:layout_below="@+id/chatWindow_TXT_chatWithName"
+        android:layout_marginTop="23dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatWindow_RCL_allMessages"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/chatWindow_SEP_title_main"
+        android:layout_above="@+id/chatWindow_LAY_message" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+    <RelativeLayout
+        android:id="@+id/chatWindow_LAY_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true" >
+
+        <EditText
+            android:id="@+id/chatWindow_EDT_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/chatWindow_BTN_send"
+            android:background="@color/transparent"
+            android:hint="Type a message"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="10dp"
+            android:textSize="19sp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true" />
+
+        <ImageView
+            android:id="@+id/chatWindow_BTN_send"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/z_ic_send_msg"
+            android:layout_centerVertical="true"
+            />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

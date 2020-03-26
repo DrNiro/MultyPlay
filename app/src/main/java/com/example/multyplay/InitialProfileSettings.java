@@ -1,21 +1,14 @@
 package com.example.multyplay;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -213,10 +206,14 @@ public class InitialProfileSettings extends AppCompatActivity {
             prefs.putString(Constants.PREFS_KEY_ACCOUNT, jsAccount);
             prefs.putString(Constants.PREFS_KEY_CURRENT_LOGGED_IN, Constants.LOGGED_IN);
 
+            SearchFilters defaultSearchFilters = new SearchFilters(Constants.DEFAULT_SEARCH_FILTER_MAX_DISTANCE, Constants.DEFAULT_SEARCH_FILTER_MIN_AGE, Constants.DEFAULT_SEARCH_FILTER_MAX_AGE);
+            String jsSearchFilters = new Gson().toJson(defaultSearchFilters);
+            prefs.putString(Constants.PREFS_KEY_SEARCH_FILTERS, jsSearchFilters);
+
             Intent goToProfileIntent = new Intent(InitialProfileSettings.this, FragmentManager.class);
 //            goToProfileIntent.putExtra(Constants.KEY_MY_ACCOUNT_JSON, jsonAccount);
             Log.d("vvvInitProfileFINISH", "account: " + jsAccount);
-            goToProfileIntent.putExtra(Constants.KEY_MARK_FOREIN_ACCOUNT, true);
+            goToProfileIntent.putExtra(Constants.KEY_MARK_IS_OWNER, Constants.MY_PROFILE);
             startActivity(goToProfileIntent);
             finish();
         }

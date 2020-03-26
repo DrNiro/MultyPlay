@@ -3,14 +3,23 @@ package com.example.multyplay;
 public class Constants {
 
     public static final String KEY_MY_ACCOUNT_JSON = "KEY_MY_ACCOUNT_JSON";
+    public static final String KEY_SHOW_FOLLOWING_OR_FOLLOWERS = "KEY_SHOW_FOLLOWING_OR_FOLLOWERS";
+    public static final String KEY_CHAT_WITH = "KEY_CHAT_WITH";
 
-    public static final String KEY_MARK_FOREIN_ACCOUNT = "KEY_MARK_FOREIN_ACCOUNT";
+    public static final String KEY_MARK_IS_OWNER = "KEY_MARK_IS_OWNER";
+    public static final boolean MY_PROFILE = true;
+    public static final boolean VISITED_PROFILE = false;
 
     public static final String PREFS_KEY_WRONG_PASS_COUNTER = "PREFS_KEY_WRONG_PASS_COUNTER";
     public static final String PREFS_KEY_ACCOUNT_SERIAL = "PREFS_KEY_ACCOUNT_SERIAL";
     public static final String PREFS_KEY_ACCOUNT = "PREFS_KEY_ACCOUNT";
     public static final String PREFS_KEY_FOREIN_ACCOUNT = "PREFS_KEY_FOREIN_ACCOUNT";
+    public static final String PREFS_KEY_CHAT_WITH_ACCOUNT = "PREFS_KEY_CHAT_WITH_ACCOUNT";
     public static final String PREFS_KEY_CURRENT_LOGGED_IN = "PREFS_KEY_CURRENT_LOGGED_IN";
+    public static final String PREFS_KEY_SEARCH_FILTERS = "PREFS_KEY_SEARCH_FILTERS";
+    public static final String PREFS_KEY_MY_FOLLOWING_LIST = "PREFS_KEY_MY_FOLLOWING_LIST";
+    public static final String PREFS_KEY_MY_FOLLOWERS_LIST = "PREFS_KEY_MY_FOLLOWERS_LIST";
+    public static final String PREFS_KEY_MY_OPEN_CHATS = "PREFS_KEY_MY_OPEN_CHATS";
 
     public static final String MSG_EMAIL_DONT_EXIST = "Email doesn't exist";
     public static final String MSG_WRONG_PASSWORD = "Wrong password, try again";
@@ -21,28 +30,19 @@ public class Constants {
     public static final String LOGGED_IN = "LOGGED_IN";
     public static final String LOGGED_OUT = "LOGGED_OUT";
 
+    public static final String FOLLOW = "Follow";
+    public static final String FOLLOWING = "Following";
+    public static final String FOLLOWERS = "Followers";
+
     public static final int MINIMUM_AGE = 13;
+    public static final int MAX_WORDS_FOR_NICKNAME = 1;
+    public static final int MIN_SEARCH_DISTANCE = 2;
 
-    public static final String ISRAEL = "Israel";
-    public static final String HEBREW = "Hebrew";
-    public static final String USA = "USA";
-    public static final String ENGLISH_AMERICAN = "English\n(American)";
-    public static final String ENGLAND = "England";
-    public static final String ENGLISH_BRITISH = "English\n(british)";
-    public static final String RUSSIA = "Russia";
-    public static final String RUSSIAN = "Russian";
-    public static final String SPAIN = "Spain";
-    public static final String ESPANOL = "Espanol";
-    public static final String GERMANY = "Germany";
-    public static final String DEUTSCH = "Deutsch";
-    public static final String ITALY = "Italy";
-    public static final String ITALIAN = "Italian";
-    public static final String SAUDI_ARABIA = "Saudi Arabia";
-    public static final String ARABIC = "Arabic";
-    public static final String FRANCE = "France";
-    public static final String FRENCH = "French";
+    public static final int DEFAULT_SEARCH_FILTER_MAX_DISTANCE = 10;
+    public static final int DEFAULT_SEARCH_FILTER_MIN_AGE = 18;
+    public static final int DEFAULT_SEARCH_FILTER_MAX_AGE = 28;
 
-
+    public static final int PERMISSION_REQUEST_CODE = 1000;
 
 //    public static final int GENDER_TYPE_FEMALE = 0;
 //    public static final int GENDER_TYPE_MALE = 1;

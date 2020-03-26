@@ -13,6 +13,10 @@
     <color name="lightest_gray">#39E4E4E4</color>
     <color name="darker_gray">#7B7B7B</color>
     <color name="medium_gray">#9B9B9B</color>
+    <color name="panel_gray">#90E6E4E4</color>
+
+    <color name="sender_msg">#B2FE7865</color>
+    <color name="receiver_msg">#A695C9F0</color>
 
     <color name="blue_text">#0E87E4</color>
     <color name="blue_marker">#B41168AC</color>

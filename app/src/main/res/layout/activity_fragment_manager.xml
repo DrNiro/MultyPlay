@@ -12,7 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/main_LAY_toolbar" />
+        android:layout_above="@+id/main_LAY_toolbar">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray"
+        android:layout_above="@+id/main_LAY_toolbar"
+        />
 
     <LinearLayout
         android:id="@+id/main_LAY_toolbar"
@@ -20,52 +29,58 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="5"
+        android:padding="5dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/light_gray">
+        android:background="@color/lightest_gray">
 
         <ImageView
             android:id="@+id/main_BTN_pro"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="31dp"
             android:padding="3dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:src="@drawable/toolbar_img_pro"
             />
 
         <ImageView
             android:id="@+id/main_BTN_feed"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="28dp"
             android:padding="3dp"
             android:layout_weight="1"
+            android:layout_gravity="center"
             android:src="@drawable/toolbar_img_feed"
             />
 
         <ImageView
             android:id="@+id/main_BTN_search"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
             android:padding="3dp"
             android:layout_weight="1"
+            android:layout_gravity="center"
             android:src="@drawable/toolbar_img_bird_search"
             />
 
         <ImageView
             android:id="@+id/main_BTN_chat"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
             android:padding="3dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:src="@drawable/toolbar_img_chat"
             />
 
         <ImageView
             android:id="@+id/main_BTN_profile"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="34dp"
             android:padding="3dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_empty_profile_pic"
+            android:layout_gravity="center"
+            android:src="@drawable/toolbar_img_profile"
             />
 
     </LinearLayout>

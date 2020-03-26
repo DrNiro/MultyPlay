@@ -78,8 +78,8 @@ public class ChangeCoverPicFragment extends Fragment {
 
         prefs = new MySharedPreferences(view.getContext());
 //        get current account's id to replace its profile picture in storage appropriately.
-        account_serial_num = prefs.getString(Constants.PREFS_KEY_ACCOUNT_SERIAL, "Test");
         account = new Gson().fromJson(prefs.getString(Constants.PREFS_KEY_ACCOUNT, ""), Account.class);
+        account_serial_num = account.getId().getSerialNum() + ""; //prefs.getString(Constants.PREFS_KEY_ACCOUNT_SERIAL, "Test");
 
         storageReference = FirebaseStorage.getInstance().getReference("cover_pictures");
         databaseReference = FirebaseDatabase.getInstance().getReference("Accounts");

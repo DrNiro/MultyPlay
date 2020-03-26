@@ -27,8 +27,8 @@
 
             <RelativeLayout
                 android:id="@+id/profile_LAY_changeCoverPic"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="10dp"
@@ -134,8 +134,8 @@
 
                 <RelativeLayout
                     android:id="@+id/profile_LAY_changeProfilePic"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true" >
 
@@ -193,10 +193,11 @@
                 android:layout_centerHorizontal="true">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/ic_loc_pin" />
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="6dp"
+                    android:src="@drawable/ic_loc_pin"
+                    android:layout_gravity="center|left"/>
 
                 <TextView
                     android:id="@+id/profile_TXT_relativeDistance"
@@ -204,7 +205,7 @@
                     android:layout_height="wrap_content"
                     android:text="10 km away | "
                     android:textColor="@color/light_gray"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/profile_TXT_location"
@@ -212,7 +213,7 @@
                     android:layout_height="wrap_content"
                     android:text="Tel Aviv, Israel"
                     android:textColor="@color/light_gray"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <TextView
@@ -226,18 +227,37 @@
                 android:layout_marginRight="30dp"
                 android:gravity="center"
                 android:hint="Insert description"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
-            <ImageView
+            <!--<ImageView-->
+                <!--android:id="@+id/profile_BTN_editDescription"-->
+                <!--android:layout_width="25dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--android:layout_below="@+id/profile_LAY_relativeLocation"-->
+                <!--android:layout_alignTop="@+id/profile_TXT_description"-->
+                <!--android:layout_alignBottom="@+id/profile_TXT_description"-->
+                <!--android:layout_toRightOf="@+id/profile_TXT_description"-->
+                <!--android:src="@drawable/ic_edit_btn" />-->
+
+            <TextView
                 android:id="@+id/profile_BTN_editDescription"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_below="@+id/profile_LAY_relativeLocation"
-                android:layout_marginTop="15dp"
-                android:layout_toRightOf="@+id/profile_TXT_description"
-                android:src="@drawable/ic_edit_btn" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/profile_TXT_description"
+                android:layout_alignParentRight="true"
+                android:drawableLeft="@drawable/ic_edit_btn"
+                android:text="EDIT"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/raleway_bold"
+                android:drawablePadding="7dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="9sp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                />
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/profile_LAY_topButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -245,21 +265,109 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp">
 
-                <Button
+                <ImageView
                     android:id="@+id/profile_BTN_follow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
-                    android:text="Follow" />
+                    android:background="@drawable/decor_left_btn_profile" />
 
-                <Button
+                <TextView
+                    android:id="@+id/profile_TXT_follow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/profile_BTN_follow"
+                    android:layout_alignBottom="@+id/profile_BTN_follow"
+                    android:layout_alignRight="@+id/profile_BTN_follow"
+                    android:layout_alignLeft="@+id/profile_BTN_follow"
+                    android:text="Follow"
+                    android:gravity="center"
+                    android:fontFamily="@font/raleway_bold"
+                    android:textSize="13sp"
+                    android:textColor="@color/blue_marker"
+                    />
+
+                <ImageView
                     android:id="@+id/profile_BTN_Message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/profile_BTN_follow"
                     android:layout_marginLeft="20dp"
-                    android:text="Message" />
+                    android:background="@drawable/decor_right_btn_profile"
+                    />
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/profile_TXT_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/profile_BTN_Message"
+                    android:layout_alignBottom="@+id/profile_BTN_Message"
+                    android:layout_alignRight="@+id/profile_BTN_Message"
+                    android:layout_alignLeft="@+id/profile_BTN_Message"
+                    android:text="Message"
+                    android:gravity="center"
+                    android:fontFamily="@font/raleway_bold"
+                    android:textSize="13sp"
+                    android:textColor="@color/white"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/profile_LAY_topButtonsOwner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile_TXT_description"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp">
+
+                <ImageView
+                    android:id="@+id/profile_BTN_followersOwner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/decor_left_btn_profile" />
+
+                <TextView
+                    android:id="@+id/profile_TXT_followOwner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/profile_BTN_followersOwner"
+                    android:layout_alignBottom="@+id/profile_BTN_followersOwner"
+                    android:layout_alignRight="@+id/profile_BTN_followersOwner"
+                    android:layout_alignLeft="@+id/profile_BTN_followersOwner"
+                    android:text="Followers"
+                    android:gravity="center"
+                    android:fontFamily="@font/raleway_bold"
+                    android:textSize="13sp"
+                    android:textColor="@color/theme_oragne"
+                    />
+
+                <ImageView
+                    android:id="@+id/profile_BTN_followingOwner"
+                    android:layout_width="118dp"
+                    android:layout_height="35dp"
+                    android:layout_toRightOf="@+id/profile_BTN_followersOwner"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/decor_button"
+                    />
+
+                <TextView
+                    android:id="@+id/profile_TXT_followingOwner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/profile_BTN_followingOwner"
+                    android:layout_alignBottom="@+id/profile_BTN_followingOwner"
+                    android:layout_alignRight="@+id/profile_BTN_followingOwner"
+                    android:layout_alignLeft="@+id/profile_BTN_followingOwner"
+                    android:text="Following"
+                    android:gravity="center"
+                    android:fontFamily="@font/raleway_bold"
+                    android:textSize="13sp"
+                    android:textColor="@color/white"
+                    />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
@@ -282,6 +390,25 @@
                 android:layout_marginTop="10dp"
                 android:text="Speaks"
                 android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/profile_BTN_editLanguages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/profile_TXT_speaks"
+                android:layout_alignBottom="@+id/profile_TXT_speaks"
+                android:layout_alignParentRight="true"
+                android:drawableLeft="@drawable/ic_edit_btn"
+                android:text="EDIT"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/raleway_bold"
+                android:drawablePadding="7dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="9sp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/lang_list"
@@ -324,13 +451,32 @@
                 android:textColor="@color/light_gray"
                 android:textSize="24sp" />
 
+            <TextView
+                android:id="@+id/profile_BTN_editGames"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/profile_TXT_games"
+                android:layout_alignBottom="@+id/profile_TXT_games"
+                android:layout_alignParentRight="true"
+                android:drawableLeft="@drawable/ic_edit_btn"
+                android:text="EDIT"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/raleway_bold"
+                android:drawablePadding="7dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="9sp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                 />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/profile_RCL_games"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/profile_TXT_games"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="10dp">
 
             </androidx.recyclerview.widget.RecyclerView>
 
